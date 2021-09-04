@@ -1,45 +1,48 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../Reducers/userSlice";
-import { login,logout } from "../Reducers/userSlice";
+import { login, logout } from "../Reducers/userSlice";
 import "./changepwd.css";
+import cogoToast from "cogo-toast";
 
 function Changepwd() {
   const [chpassword, setChpassword] = useState("");
 
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
   const currentUser = JSON.parse(localStorage.getItem("loginInfo"));
 
-  const resetpass =()=>{
-    if(chpassword.length > 6){    
-      try{
+  const resetpass = () => {
+    if (chpassword.length > 6) {
+      try {
         localStorage.setItem(
           "loginInfo",
           JSON.stringify({ ...currentUser, password: chpassword })
         );
-        dispatch(login({
-          ...user,
-          password:chpassword,
-        }))
-        console.log("changed successfully")
-        history.push("/userpage")
-      }catch(err){
-        console.log(err.message)
+        dispatch(
+          login({
+            ...user,
+            password: chpassword,
+          })
+        );
+        cogoToast.success("changed successfully");
+        history.push("/userpage");
+      } catch (err) {
+        console.log(err.message);
       }
-    }else{
-      console.log("enter more than 6 chars")
-      setChpassword("")
+    } else {
+      cogoToast.error("enter more than 6 chars");
+      setChpassword("");
     }
-  }
+  };
 
-  const signout = ()=>{
-    dispatch(logout())
-    history.push("/login")
-  }
+  const signout = () => {
+    dispatch(logout());
+    history.push("/login");
+  };
 
   return (
     <div className="wrapper2">
@@ -70,9 +73,13 @@ function Changepwd() {
             onChange={(e) => setChpassword(e.target.value)}
           />
         </div>
-        <div className="btn" style={{marginTop:"3.8rem"}} >
-          <button className="btn1" onClick={resetpass}>save password</button>
-          <button className="btn1" onClick={signout}>Logout</button>
+        <div className="btn" style={{ marginTop: "3.8rem" }}>
+          <button className="btn1" onClick={resetpass}>
+            save password
+          </button>
+          <button className="btn1" onClick={signout}>
+            Logout
+          </button>
         </div>
       </div>
     </div>

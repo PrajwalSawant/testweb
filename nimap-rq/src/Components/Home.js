@@ -2,21 +2,30 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 
 function Home() {
-  useEffect(() => {}, []);
+  const [checked, setChecked] = useState("");
 
   return (
     <div className="wrapper">
       <div className="data">
-        <select name="Dropdown" id="">
+        <select
+          name="Dropdown"
+          id=""
+          onChange={(e) => setChecked(e.target.value)}
+        >
+          <option value="" selected>
+            Select
+          </option>
           <option value="val1">Dropdown</option>
           <option value="val2">Dropdown2</option>
         </select>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore
-          magnam ipsa neque at voluptatibus commodi expedita cum, quo ullam
-          exercitationem facilis praesentium asperiores ducimus optio ratione
-          itaque, non, facere repellendus incidunt qui ad perferendis! Iste ad
-          excepturi dolores ratione atque.
+          {checked === ""
+            ? "Please select a Value"
+            : checked === "val1"
+            ? "Dropdown 1 selected"
+            : checked === "val2"
+            ? "Dropdown 2 selected"
+            : ""}
         </p>
       </div>
     </div>
